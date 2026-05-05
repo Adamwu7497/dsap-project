@@ -10,7 +10,7 @@
 
 撰寫程式模擬台北市個區域的派遣事件，並分析台北市救護車的分布狀況提出建議。
 
-我想要將結果分成兩者。一個是在事件發生後最佳救援時間內沒有任何救護站能派車抵達便將這個區域記錄下來，一個是在事件發生後最近的救護車站沒有車導致超出最佳救援時間變將這個救護車站記錄下來。
+我想要將結果分成兩者。一個是在事件發生後最佳救援時間內沒有任何救護站能派車抵達便將這個區域記錄下來，一個是在事件發生後最近的救護車站沒有車導致超出最佳救援時間變將這個救護車站記錄下來。目前最佳救援時間設定在30分鐘以下。
 
 ### 預期功能
 
@@ -58,16 +58,35 @@ Python：使用為資料處理、資料分析的工具，並使用其進行結�
 ## Prototype Report
 
 ### 目前進度
-<!-- 完成了什麼 -->
+
+目前我完成了第一週到第四週的進度。
+
+第一週我透過python的panda library進行了資料清洗，分別生成了較易讀取的cleancases_250k, cleancases_500, clean_station_to_grid.csv檔。
+
+第二週我建立了models.h檔，並創立了class（case, ambulance, station, event)。
+
+第三週我建立了TravelTimeTable.h，將車程資料透過hash table存入程式碼。
+
+第四週我完善放我的models.h。先在sttation內加入get_available_ambulance(), dispatch_ambulance(), return_ambulance()，並根據教授的建議創建了SimulationResult將模擬結果分類讓我方便分析。我也透過紅黑樹實作救護車排序函數。
 
 ### 遇到的困難
-<!-- 遇到什麼問題、如何解決或打算如何解決 -->
+我在專案初期也遇到了github操作不熟練的問題，因此我透過和ai的互動快速學習這次專案需要的一些github基礎操作。
+
+我在第二週和教授討論之後，發現專案目前對於分析結果的定義不夠完善，因此加入了SimulationResult class。
+
+我發原本預計使用的Queue存在無法動態修改內部元素時間的致命傷，因此果斷將架構重構為 std::set，建立ambulancecompare。
 
 ### 下一步計畫
-<!-- 接下來要做什麼 -->
+串接時間軸，讓報案與歸隊事件驅動 Hash Table 查詢與 Set 派車邏輯。
+
+實測與產出，灌入 25 萬筆真實數據，印出報告。
 
 ### 與課程的關聯
-<!-- 到目前為止，你的實作中哪些部分與課程內容有關？關係是什麼？ -->
+Hash Table： 使用hash table讀取車程資料減少資料檢索需要的時間。
+
+Red-Black Tree： 我在救護車的排序上使用了紅綠樹，動態變更歸隊時間的排序。
+
+OOP & Data Encapsulation： 透過models.h, traveltimetable.h與各函數做出oop與encapsulation。
 
 ---
 
