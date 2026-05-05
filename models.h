@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <set>
+#include <unordered_map>
 
 using namespace std;
 
@@ -12,90 +14,106 @@ using namespace std;
 // ==========================================
 class Case {
 public:
-    string case_id;          // 案號 (例如 "20220101000328003")
-    long long timestamp;     // 報案時間 (Unix Timestamp，從 CSV 讀取)
-    int grid_id;             // 發生地點的網格編號
+    string case_id;          
+    long long timestamp;     
+    int grid_id;             
 
-    // 模擬器運行後會填寫的數據 (用於期末數據分析)
-    long long wait_time;     // 病患等待時間 (救護車抵達時間 - 報案時間)
-    string assigned_plate;   // 派去處理的救護車車牌
+    long long wait_time;     
+    string assigned_plate;   
 
-    // 建構子 (Constructor)
     Case(string id, long long ts, int grid) {
         case_id = id;
         timestamp = ts;
         grid_id = grid;
-        wait_time = -1;      // 初始化為 -1 代表尚未處理
+        wait_time = -1;      
         assigned_plate = "";
     }
 };
-
 
 // ==========================================
 // 2. 救護車 (Ambulance)
 // ==========================================
 class Ambulance {
 public:
-    string plate_number;     // 車牌號碼
-    string type;             // 基礎 or 高級
-    int station_id;          // 所屬分隊的 ID 或名稱
+    string plate_number;     
+    string type;             
+    int station_id;          
 
-    bool is_idle;            // 目前是否閒置 (true: 在分隊待命, false: 出勤中)
-    long long available_time;// 下一次可以接案的時間 (Unix Timestamp)
+    bool is_idle;            
+    long long available_time;
 
-    // 建構子
     Ambulance(string plate, string t, int s_id) {
         plate_number = plate;
         type = t;
         station_id = s_id;
-        is_idle = true;      // 初始狀態都是閒置的
+        is_idle = true;      
         available_time = 0;  
     }
 };
 
+// ==========================================
+// 🌟 教 std::set 怎麼幫救護車排隊的規則
+// ==========================================
+struct AmbulanceCompare {
+    bool operator()(const Ambulance* a, const Ambulance* b) const {
+        if (a->available_time != b->available_time) {
+            return a->available_time < b->available_time;
+        }
+        return a->plate_number < b->plate_number;
+    }
+};
 
 // ==========================================
-// 3. 分隊 (Station)
+// 3. 分隊 (Station) - Week 4 升級版
 // ==========================================
 class Station {
 public:
-    string name;             // 分隊名稱 (例如 "忠孝")
-    int station_id;          // 分隊的數字 ID (方便陣列或 Hash Table 查找)
+    string name;             
+    int station_id;          
     
-    // 裝載這個分隊所有救護車的陣列
     vector<Ambulance> all_ambulances; 
+    set<Ambulance*, AmbulanceCompare> available_cars;
 
-    // 建構子
     Station(int id, string n) {
         station_id = id;
         name = n;
     }
 
-    // Week 4 才會實作的功能：從這裡面挑出一台閒置的車
-    // Ambulance* get_available_ambulance(); 
-};
+    Ambulance* get_available_ambulance(long long current_time) {
+        if (available_cars.empty()) {
+            return nullptr; 
+        }
+        Ambulance* best_car = *(available_cars.begin());
+        return best_car;
+    }
 
+    void dispatch_ambulance(Ambulance* car) {
+        car->is_idle = false;
+        available_cars.erase(car); 
+    }
+
+    void return_ambulance(Ambulance* car, long long new_available_time) {
+        car->is_idle = true;
+        car->available_time = new_available_time;
+        available_cars.insert(car); 
+    }
+};
 
 // ==========================================
 // 4. 事件 (Event) - 離散事件模擬的核心
 // ==========================================
-// 定義事件的三種類型
 enum EventType {
-    CASE_OCCUR,         // 報案發生
-    AMBULANCE_RETURN    // 救護車完成任務歸隊
+    CASE_OCCUR,         
+    AMBULANCE_RETURN    
 };
 
 class Event {
 public:
-    long long event_time;    // 事件發生的時間點
-    EventType type;          // 事件的種類
-
-    // 指標：這個事件關聯到哪一個案件？哪一台車？
-    // (報案事件會有 case_ptr；歸隊事件會有 amb_ptr)
+    long long event_time;    
+    EventType type;          
     Case* related_case;      
     Ambulance* related_ambulance; 
 
-    // 建構子
     Event(long long time, EventType t, Case* c_ptr, Ambulance* a_ptr) {
         event_time = time;
         type = t;
@@ -103,11 +121,33 @@ public:
         related_ambulance = a_ptr;
     }
 
-    // ✨ 超級重要：教 Priority Queue 怎麼排序事件
-    // C++ 預設是 Max-Heap，我們希望「時間愈早的事件」排在愈前面 (Min-Heap)
-    // 所以我們要在這裡覆寫小於 (<) 運算子，把邏輯反過來
+    // 讓 Priority Queue 知道時間越小越優先 (Min-Heap)
     bool operator<(const Event& other) const {
         return event_time > other.event_time; 
+    }
+};
+
+// ==========================================
+// 5. 模擬結果紀錄器 (Simulation Result)
+// ==========================================
+const int OPTIMAL_RESPONSE_TIME = 8; 
+
+class SimulationResult {
+public:
+    unordered_map<int, int> grid_timeout_count;
+    unordered_map<int, int> station_shortage_count;
+
+    void record_blind_spot(int grid_id) {
+        grid_timeout_count[grid_id]++;
+    }
+
+    void record_station_bottleneck(int station_id) {
+        station_shortage_count[station_id]++;
+    }
+
+    void print_summary() {
+        cout << "\n📊 --- 模擬結果報告 --- 📊\n";
+        cout << "正在分析 25 萬筆數據中的盲區與瓶頸...\n";
     }
 };
 
