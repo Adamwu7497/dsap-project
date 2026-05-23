@@ -2,11 +2,12 @@
 #define MODELS_H
 
 #include <iostream>
+#include <fstream> // 🌟 補上這一行，讓系統認識 ofstream
 #include <string>
 #include <vector>
 #include <set>
 #include <unordered_map>
-
+#include <algorithm> // 順便確保 sort 函數有被載入
 using namespace std;
 
 // ==========================================
@@ -145,9 +146,57 @@ public:
         station_shortage_count[station_id]++;
     }
 
+    // 模擬結束後，印出排名前幾名的問題網格與分隊
     void print_summary() {
-        cout << "\n📊 --- 模擬結果報告 --- 📊\n";
-        cout << "正在分析 25 萬筆數據中的盲區與瓶頸...\n";
+        cout << "\n📊 ================= 模擬結果報告 ================= 📊\n";
+        
+        cout << "\n🚨 【區域盲區 Top 5】(即使派出最快的車仍超時的網格)：\n";
+        // 簡單將 map 轉為 vector 以便排序
+        vector<pair<int, int>> grids(grid_timeout_count.begin(), grid_timeout_count.end());
+        sort(grids.begin(), grids.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
+            return a.second > b.second; // 照超時次數由大排到小
+        });
+        
+        int count = 0;
+        for (auto& g : grids) {
+            if (count++ >= 5) break;
+            cout << "   網格 ID: " << g.first << " | 超時次數: " << g.second << " 次\n";
+        }
+
+        cout << "\n❌ 【分隊量能瓶頸】(因無車可用導致跨區調派的分隊)：\n";
+        vector<pair<int, int>> stations(station_shortage_count.begin(), station_shortage_count.end());
+        sort(stations.begin(), stations.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
+            return a.second > b.second; 
+        });
+        
+        for (auto& s : stations) {
+            cout << "   分隊 ID: " << s.first << " | 缺車次數: " << s.second << " 次\n";
+        }
+        cout << "\n======================================================\n";
+    }
+    // 模擬結束後，將盲區與瓶頸數據匯出成 CSV 檔案
+    void export_to_csv() {
+        // 匯出網格盲區數據
+        ofstream grid_file("clean_data/grid_blind_spots.csv");
+        if (grid_file.is_open()) {
+            grid_file << "Grid_ID,Timeout_Count\n"; // 寫入標題
+            for (auto& pair : grid_timeout_count) {
+                grid_file << pair.first << "," << pair.second << "\n";
+            }
+            grid_file.close();
+            cout << "✅ 成功匯出區域盲區數據至 clean_data/grid_blind_spots.csv\n";
+        }
+
+        // 匯出分隊瓶頸數據
+        ofstream station_file("clean_data/station_bottlenecks.csv");
+        if (station_file.is_open()) {
+            station_file << "Station_ID,Shortage_Count\n"; // 寫入標題
+            for (auto& pair : station_shortage_count) {
+                station_file << pair.first << "," << pair.second << "\n";
+            }
+            station_file.close();
+            cout << "✅ 成功匯出分隊瓶頸數據至 clean_data/station_bottlenecks.csv\n";
+        }
     }
 };
 
