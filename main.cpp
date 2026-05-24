@@ -3,6 +3,7 @@
 #include <vector>
 #include "models.h"
 #include "TravelTimeTable.h"
+#include <set>
 
 using namespace std;
 
@@ -61,6 +62,67 @@ bool load_cases_from_csv(string filepath, priority_queue<Event>& eq, vector<Case
     return true;
 }
 
+void auto_build_stations(string filepath, unordered_map<int, Station*>& all_stations) {
+    ifstream file(filepath);
+    if (!file.is_open()) {
+        cerr << "❌ 錯誤：找不到車程檔案 " << filepath << "\n";
+        return;
+    }
+
+    string line;
+    bool is_header = true;
+    set<string> unique_stations;
+
+    // 1. 掃描整個 CSV，萃取所有不重複的分隊名稱
+    while (getline(file, line)) {
+        if (is_header) { is_header = false; continue; }
+        stringstream ss(line);
+        string station_name;
+        
+        // 假設你的 clean_station_to_grid.csv 第一欄是「分隊名稱」
+        getline(ss, station_name, ',');
+        
+        if (!station_name.empty()) {
+            unique_stations.insert(station_name); // set 會自動過濾掉重複的名字
+        }
+    }
+    file.close();
+
+    // 🌟 新增：自動將 ID 與真實名字的對照表寫出成 CSV
+    ofstream dict_file("clean_data/station_dictionary.csv");
+    if (dict_file.is_open()) {
+        dict_file << "Station_ID,Station_Name\n"; // 欄位名稱
+        for (auto& pair : all_stations) {
+            dict_file << pair.first << "," << pair.second->name << "\n";
+        }
+        dict_file.close();
+        cout << "📝 已自動生成分隊對照表：clean_data/station_dictionary.csv\n";
+    }
+
+    // 2. 幫每個找出來的分隊建置實體，並配發基準量能 (例如各 3 台車)
+    int id_counter = 1;
+    for (const string& s_name : unique_stations) {
+        // new 一個新的分隊物件
+        Station* new_station = new Station(id_counter, s_name);
+        
+        // 統一配發 3 台救護車給這個分隊
+        for (int i = 1; i <= 3; i++) {
+            string plate = s_name + "-" + to_string(i); // 例如：大安-1, 大安-2
+            new_station->all_ambulances.push_back(Ambulance(plate, "一般", id_counter));
+        }
+        
+        // 把這些剛出廠的救護車推入 std::set (紅黑樹) 車庫待命
+        for (int i = 0; i < new_station->all_ambulances.size(); i++) {
+            new_station->available_cars.insert(&(new_station->all_ambulances[i]));
+        }
+        
+        all_stations[id_counter] = new_station;
+        id_counter++;
+    }
+    cout << "✅ 城市救護網建置完畢！共建立 " << unique_stations.size() 
+         << " 個分隊，配發總計 " << unique_stations.size() * 3 << " 台救護車。\n";
+}
+
 int main() {
     cout << "🚀 啟動台北市救護資源離散事件模擬器 (DES Engine)...\n";
 
@@ -72,19 +134,11 @@ int main() {
         return 1; 
     }
 
-    // (實務上這裡應該寫個迴圈讀取 stations.csv，這裡先手動建兩個示範)
-    Station station1(1, "建國");
-    station1.all_ambulances.push_back(Ambulance("AAA-001", "一般", 1));
-    station1.available_cars.insert(&station1.all_ambulances[0]);
-
-    Station station2(2, "忠孝");
-    station2.all_ambulances.push_back(Ambulance("BBB-002", "一般", 2));
-    station2.available_cars.insert(&station2.all_ambulances[0]);
-
-    // 用一個陣列或 Hash Map 管理全台北市的分隊，方便之後用 ID 尋找
+    // 用一個 Hash Map 管理全台北市的分隊
     unordered_map<int, Station*> all_stations;
-    all_stations[1] = &station1;
-    all_stations[2] = &station2;
+    
+    // 🌟 一鍵自動萃取並建置全台北市的分隊！
+    auto_build_stations("clean_data/clean_station_to_grid.csv", all_stations);
 
 
     // ==========================================
@@ -223,7 +277,23 @@ int main() {
     sim_results.print_summary();
     sim_results.export_to_csv(); // 🌟 加上這行！
 
-    
+    // ==========================================
+    // 5. 系統關閉與記憶體清理 (Memory Management)
+    // ==========================================
+    cout << "\n🧹 模擬結束，正在釋放 25 萬筆案件的記憶體...\n";
+    for (Case* c : global_cases) {
+        delete c; // 把 new 出來的空間還給作業系統
+    }
+    global_cases.clear();
+
+    // 🌟 新增：清空所有自動建置的分隊
+    for (auto& pair : all_stations) {
+        delete pair.second;
+    }
+    all_stations.clear();
+
+    cout << "✅ 記憶體釋放完畢！系統安全關閉。\n";
+
 
     return 0;
 }
