@@ -102,7 +102,11 @@ OOP & Data Encapsulation： 透過models.h, traveltimetable.h與各函數做出o
 <!-- 完整描述你的專案做了什麼 -->
 
 ### 使用方式
-<!-- 如何編譯、執行、使用你的程式 -->
+1. 請確認專案根目錄下包含 clean_data 資料夾，且內部已放置清洗完畢的 csv 檔案。
 
-### 與課程的關聯總結
+2. 在終端機輸入以下指令進行編譯與執行：g++ -std=c++11 main.cpp -o simulator && ./simulator。
+
+3. 執行python視覺化程式碼：python3 visualize.py。
+
+### 至少提出系統內一個功能流程是使用不同資料結構或演算法來進行實際效能分析跟比較
 <!-- 總結你的專題與進階程式設計及資料結構課程之間的關聯 -->
