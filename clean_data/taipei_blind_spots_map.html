@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_fa1890b53f19ad6edb14b34263639bbe {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_fa1890b53f19ad6edb14b34263639bbe" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_fa1890b53f19ad6edb14b34263639bbe = L.map(
+                "map_fa1890b53f19ad6edb14b34263639bbe",
+                {
+                    center: [25.0478, 121.517],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_75d82e345fbfbb4c613ac477a06181cc = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_75d82e345fbfbb4c613ac477a06181cc.addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+            var circle_marker_abd648a075f34afbf55c12b837eabe05 = L.circleMarker(
+                [25.057000000000002, 121.58500000000001],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.16, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_95ee49eef37fd0f84f9e5a575f7e3133 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_af89302920cf73ba4668bd44d0949fe1 = $(`<div id="html_af89302920cf73ba4668bd44d0949fe1" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 525<br><b>座標:</b> X:15, Y:17<br><b>超時次數:</b> 1524</div>`)[0];
+                popup_95ee49eef37fd0f84f9e5a575f7e3133.setContent(html_af89302920cf73ba4668bd44d0949fe1);
+            
+        
+
+        circle_marker_abd648a075f34afbf55c12b837eabe05.bindPopup(popup_95ee49eef37fd0f84f9e5a575f7e3133)
+        ;
+
+        
+    
+    
+            var circle_marker_e8aea025c4d1f5010d372335885b36ee = L.circleMarker(
+                [25.066000000000003, 121.531],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.1466666666666665, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_b798e7342958bff53af2a4823d850adc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1bc1bbe60a7878e04cb627b821228465 = $(`<div id="html_1bc1bbe60a7878e04cb627b821228465" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 489<br><b>座標:</b> X:9, Y:16<br><b>超時次數:</b> 622</div>`)[0];
+                popup_b798e7342958bff53af2a4823d850adc.setContent(html_1bc1bbe60a7878e04cb627b821228465);
+            
+        
+
+        circle_marker_e8aea025c4d1f5010d372335885b36ee.bindPopup(popup_b798e7342958bff53af2a4823d850adc)
+        ;
+
+        
+    
+    
+            var circle_marker_512e194e4a60dde7d814d2c84067c4e1 = L.circleMarker(
+                [25.093, 121.56700000000001],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.3066666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_0ac66a54af8442eb1c206c2f3c27e88b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a0ac8de1c5fa764f631732d537439afb = $(`<div id="html_a0ac8de1c5fa764f631732d537439afb" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 403<br><b>座標:</b> X:13, Y:13<br><b>超時次數:</b> 496</div>`)[0];
+                popup_0ac66a54af8442eb1c206c2f3c27e88b.setContent(html_a0ac8de1c5fa764f631732d537439afb);
+            
+        
+
+        circle_marker_512e194e4a60dde7d814d2c84067c4e1.bindPopup(popup_0ac66a54af8442eb1c206c2f3c27e88b)
+        ;
+
+        
+    
+    
+            var circle_marker_fb96c60c92c667d745d99533936d02e4 = L.circleMarker(
+                [25.111, 121.61200000000001],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.92, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_5a1b462dd554d3769d8e02b4c5fdd64a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7a01d7d1319cc8415c3c6669d68f3a30 = $(`<div id="html_7a01d7d1319cc8415c3c6669d68f3a30" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 348<br><b>座標:</b> X:18, Y:11<br><b>超時次數:</b> 438</div>`)[0];
+                popup_5a1b462dd554d3769d8e02b4c5fdd64a.setContent(html_7a01d7d1319cc8415c3c6669d68f3a30);
+            
+        
+
+        circle_marker_fb96c60c92c667d745d99533936d02e4.bindPopup(popup_5a1b462dd554d3769d8e02b4c5fdd64a)
+        ;
+
+        
+    
+    
+            var circle_marker_0e578df08df3cb5cc324574ff3a65928 = L.circleMarker(
+                [25.057000000000002, 121.477],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 0.9866666666666667, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_b57c53441b9d551432fe955b98bd8978 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_05abf9da255460beb2bc2ae80a3548d8 = $(`<div id="html_05abf9da255460beb2bc2ae80a3548d8" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 513<br><b>座標:</b> X:3, Y:17<br><b>超時次數:</b> 148</div>`)[0];
+                popup_b57c53441b9d551432fe955b98bd8978.setContent(html_05abf9da255460beb2bc2ae80a3548d8);
+            
+        
+
+        circle_marker_0e578df08df3cb5cc324574ff3a65928.bindPopup(popup_b57c53441b9d551432fe955b98bd8978)
+        ;
+
+        
+    
+    
+            var circle_marker_566b939a52d2827e386f9abd186caea4 = L.circleMarker(
+                [25.075, 121.61200000000001],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 0.8733333333333333, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_85be46263ac7db0e51ff5a5fc3504b98 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6da4c55a61aaf76320b87c12f64cb992 = $(`<div id="html_6da4c55a61aaf76320b87c12f64cb992" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 468<br><b>座標:</b> X:18, Y:15<br><b>超時次數:</b> 131</div>`)[0];
+                popup_85be46263ac7db0e51ff5a5fc3504b98.setContent(html_6da4c55a61aaf76320b87c12f64cb992);
+            
+        
+
+        circle_marker_566b939a52d2827e386f9abd186caea4.bindPopup(popup_85be46263ac7db0e51ff5a5fc3504b98)
+        ;
+
+        
+    
+    
+            var circle_marker_97afdabcba65ef6caf23a421395f19b0 = L.circleMarker(
+                [25.066000000000003, 121.59400000000001],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 0.5466666666666666, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_e6f48fab248f08b6b4d9ca5e60350b27 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6e3f713129758d9605fae15dc292b484 = $(`<div id="html_6e3f713129758d9605fae15dc292b484" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 496<br><b>座標:</b> X:16, Y:16<br><b>超時次數:</b> 82</div>`)[0];
+                popup_e6f48fab248f08b6b4d9ca5e60350b27.setContent(html_6e3f713129758d9605fae15dc292b484);
+            
+        
+
+        circle_marker_97afdabcba65ef6caf23a421395f19b0.bindPopup(popup_e6f48fab248f08b6b4d9ca5e60350b27)
+        ;
+
+        
+    
+    
+            var circle_marker_64ee24e3b5791ad2d933a1eb75ec554e = L.circleMarker(
+                [25.048000000000002, 121.477],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 0.5066666666666667, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_af61e13452842aea69497ba980e818f8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_268fec6a7d83aa12b09afdc618e6ca9a = $(`<div id="html_268fec6a7d83aa12b09afdc618e6ca9a" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 543<br><b>座標:</b> X:3, Y:18<br><b>超時次數:</b> 76</div>`)[0];
+                popup_af61e13452842aea69497ba980e818f8.setContent(html_268fec6a7d83aa12b09afdc618e6ca9a);
+            
+        
+
+        circle_marker_64ee24e3b5791ad2d933a1eb75ec554e.bindPopup(popup_af61e13452842aea69497ba980e818f8)
+        ;
+
+        
+    
+    
+            var circle_marker_aba07f6b8d5e8b44f5120b2ba3b312a1 = L.circleMarker(
+                [25.156000000000002, 121.666],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 0.41333333333333333, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_b6402bfa0c506a3bd0794e29072ce731 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c8d854a749be7241be11afda0c7d9929 = $(`<div id="html_c8d854a749be7241be11afda0c7d9929" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 204<br><b>座標:</b> X:24, Y:6<br><b>超時次數:</b> 62</div>`)[0];
+                popup_b6402bfa0c506a3bd0794e29072ce731.setContent(html_c8d854a749be7241be11afda0c7d9929);
+            
+        
+
+        circle_marker_aba07f6b8d5e8b44f5120b2ba3b312a1.bindPopup(popup_b6402bfa0c506a3bd0794e29072ce731)
+        ;
+
+        
+    
+    
+            var circle_marker_3fe714496849cb6591eac3340ebdf2e5 = L.circleMarker(
+                [25.057000000000002, 121.504],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 0.4, "stroke": true, "weight": 3}
+            ).addTo(map_fa1890b53f19ad6edb14b34263639bbe);
+        
+    
+        var popup_60e759bf2b0eaf397b48175b03ba5f13 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c4c5dc18910b84810a17db3e04fba6e2 = $(`<div id="html_c4c5dc18910b84810a17db3e04fba6e2" style="width: 100.0%; height: 100.0%;"><b>Grid ID:</b> 516<br><b>座標:</b> X:6, Y:17<br><b>超時次數:</b> 60</div>`)[0];
+                popup_60e759bf2b0eaf397b48175b03ba5f13.setContent(html_c4c5dc18910b84810a17db3e04fba6e2);
+            
+        
+
+        circle_marker_3fe714496849cb6591eac3340ebdf2e5.bindPopup(popup_60e759bf2b0eaf397b48175b03ba5f13)
+        ;
+
+        
+    
+</script>
+</html>
